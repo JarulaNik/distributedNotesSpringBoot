@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 @Getter
 @Setter
 public class Note {
+
     @Id
     public final String id;
 

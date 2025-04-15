@@ -14,6 +14,7 @@ import javax.annotation.processing.Generated;
 @Data
 public class User {
 
+
     @Generated(value = "UUID")
     @UUID
     @NotNull

@@ -10,6 +10,7 @@ public class NoteRepository {
 
     private final List<Note> NOTES = new ArrayList<>();
 
+
     public List<Note> showAllNotes() {
         return NOTES;
     }

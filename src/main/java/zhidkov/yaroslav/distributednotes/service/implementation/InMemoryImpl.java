@@ -14,6 +14,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class InMemoryImpl implements NoteService {
 
+
     private final Map<String, Note> noteMap = new HashMap<>();
 
     @Override

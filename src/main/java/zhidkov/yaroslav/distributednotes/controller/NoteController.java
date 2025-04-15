@@ -23,6 +23,7 @@ public class NoteController {
     @NonNull
     private final NoteService noteService;
 
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/notes")
     public List<Note> showAllNotes() {
