@@ -1,29 +1,25 @@
 package zhidkov.yaroslav.distributednotes.model;
 
-import jakarta.validation.constraints.NotBlank;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
+import lombok.*;
 
 
-@Getter
-@Setter
+@Entity
+@Table(name = "note")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Note {
 
     @Id
-    public final String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
 
-    @NotBlank
     public String title;
 
-    @NotBlank
     public String content;
 
-    public Note(String id, String title, String content){
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
-
+    public String image;
 }
