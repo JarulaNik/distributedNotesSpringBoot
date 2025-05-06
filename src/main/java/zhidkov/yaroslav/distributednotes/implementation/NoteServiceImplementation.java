@@ -1,57 +1,65 @@
 package zhidkov.yaroslav.distributednotes.implementation;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import zhidkov.yaroslav.distributednotes.model.Note;
+import zhidkov.yaroslav.distributednotes.repository.NoteRepository;
 import zhidkov.yaroslav.distributednotes.service.NoteService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
+
 
 @Service
 public class NoteServiceImplementation implements NoteService {
 
-    private final Map<String, Note> noteMap = new HashMap<>();
+
+    private final NoteRepository noteRepository;
+
+
+    public NoteServiceImplementation(NoteRepository noteRepository) {
+        this.noteRepository = noteRepository;
+    }
 
     @Override
+    @Transactional
     public List<Note> showAllNotes() {
-        return new ArrayList<>(noteMap.values());
+        return noteRepository.findAll();
     }
 
     @Override
-    public Note showNoteById(String id) {
-        return noteMap.get(id);
+    @Transactional
+    public @NotNull Optional<Note> getNoteById(Long id) {
+        return noteRepository.findById(id);
     }
 
     @Override
-    public Note createNote(String id, String title, String content) {
-        Note note = new Note(id, title, content);
-        noteMap.put(id, note);
-        return note;
+    @Transactional
+    public Note createNote(Long id, String title, String content) {
+        Note note = Note.builder()
+                .title(title)
+                .content(content)
+                .build();
+        return noteRepository.save(note);
     }
 
     @Override
-    public Note updateNote(String id, String title, String content) {
-        if (noteMap.containsKey(id)) {
-            Note note = noteMap.get(id);
-            note.setTitle(title);
-            note.setContent(content);
-            noteMap.put(id, note);
-            return note;
-        }
-        return null;
+    @Transactional
+    public Note updateNote(Long id,String title, String content) {
+        Note note = Note.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .build();
+        return noteRepository.save(note);
     }
+
 
     @Override
-    public void deleteNoteById(String id) {
-        noteMap.remove(id);
+    @Transactional
+    public void deleteNoteById(Long id) {
+        noteRepository.deleteById(id);
     }
-
-    @Override
-    public boolean existsById(String id) {
-        return noteMap.containsKey(id);
-    }
-
 }

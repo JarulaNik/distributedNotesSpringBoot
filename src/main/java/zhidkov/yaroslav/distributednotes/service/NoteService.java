@@ -1,21 +1,20 @@
 package zhidkov.yaroslav.distributednotes.service;
+import org.jetbrains.annotations.NotNull;
 import zhidkov.yaroslav.distributednotes.model.Note;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface NoteService {
 
     List<Note> showAllNotes();
 
-    Note showNoteById(String id);
+    @NotNull Optional<Note> getNoteById(Long id);
 
-    Note createNote(String id, String title, String content);
+    Note createNote(Long id, String title, String content);
 
-    Note updateNote(String id, String title, String content);
+    Note updateNote(Long id, String title, String content);
 
-    void deleteNoteById(String id);
-
-    boolean existsById(String id);
-
+    void deleteNoteById(Long id);
 }

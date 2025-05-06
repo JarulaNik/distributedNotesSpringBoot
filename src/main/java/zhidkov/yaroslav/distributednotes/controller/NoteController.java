@@ -1,6 +1,7 @@
 package zhidkov.yaroslav.distributednotes.controller;
 
 import jakarta.validation.Valid;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import zhidkov.yaroslav.distributednotes.service.NoteService;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -30,9 +32,9 @@ public class NoteController {
     }
 
     @GetMapping("/notes/{id}")
-    public ResponseEntity<Note> showNoteById(@PathVariable String id) {
-        Note note = noteService.showNoteById(id);
-        if (note != null) {
+    public ResponseEntity<Optional<Note>> getNoteById(@PathVariable Long id) {
+        @NotNull Optional<Note> note = noteService.getNoteById(id);
+        if (note.isPresent()) {
             return ResponseEntity.ok(note);
         } else {
             return ResponseEntity.notFound().build();
@@ -41,7 +43,8 @@ public class NoteController {
 
     @PostMapping("/notes")
     public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
-        if (noteService.existsById(note.getId())) {
+        Optional<Note> existingNote = noteService.getNoteById(note.getId());
+        if (existingNote.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         Note createdNote = noteService.createNote(note.getId(), note.getTitle(), note.getContent());
@@ -49,8 +52,8 @@ public class NoteController {
     }
 
     @PutMapping("/notes/{id}")
-    public ResponseEntity<Note> updateNote(@PathVariable String id, @Valid @RequestBody Note note) {
-        Note updatedNote = noteService.updateNote(id, note.getTitle(), note.getContent());
+    public ResponseEntity<Note> updateNote( @Valid @RequestBody Note note) {
+        Note updatedNote = noteService.updateNote(note.getId(), note.getTitle(), note.getContent());
         if (updatedNote != null) {
             return ResponseEntity.ok(updatedNote);
         } else {
@@ -59,8 +62,8 @@ public class NoteController {
     }
 
     @DeleteMapping("/notes/{id}")
-    public ResponseEntity<Void> deleteNote(@PathVariable String id) {
-        if (noteService.showNoteById(id) != null) {
+    public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
+        if (noteService.getNoteById(id).isPresent()) {
             noteService.deleteNoteById(id);
             return ResponseEntity.noContent().build();
         } else {

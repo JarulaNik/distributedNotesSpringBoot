@@ -1,26 +1,25 @@
 package zhidkov.yaroslav.distributednotes.model;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 
-@Getter
-@Setter
+@Entity
+@Table(name = "note")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Note {
 
-    public String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
 
     public String title;
 
     public String content;
 
     public String image;
-
-    public Note(String id, String title, String content){
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
-
 }
