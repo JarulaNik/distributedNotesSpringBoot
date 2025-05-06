@@ -1,24 +1,21 @@
 package zhidkov.yaroslav.distributednotes.model;
 
-import jakarta.validation.constraints.NotBlank;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 
 @Getter
 @Setter
 public class Note {
 
-    @Id
-    public final String id;
+    public String id;
 
-    @NotBlank
     public String title;
 
-    @NotBlank
     public String content;
+
+    public String image;
 
     public Note(String id, String title, String content){
         this.id = id;

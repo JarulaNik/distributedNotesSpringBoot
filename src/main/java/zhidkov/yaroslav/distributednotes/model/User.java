@@ -14,22 +14,9 @@ import javax.annotation.processing.Generated;
 @Data
 public class User {
 
-
     @Generated(value = "UUID")
     @UUID
     @NotNull
     private final String userId;
 
-//    private String userName;
-//
-//    @Email
-//    private String email;
-//
-//    private String password;
-//
-//    private String role;
-//
-//    private String createdAt;
-//
-//    private boolean isBlocked;
 }

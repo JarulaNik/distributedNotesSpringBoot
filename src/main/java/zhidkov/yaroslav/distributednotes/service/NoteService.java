@@ -14,7 +14,7 @@ public interface NoteService {
 
     Note updateNote(String id, String title, String content);
 
-    void deleteById(String id);
+    void deleteNoteById(String id);
 
     boolean existsById(String id);
 

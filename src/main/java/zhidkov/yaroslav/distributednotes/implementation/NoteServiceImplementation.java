@@ -1,6 +1,6 @@
-package zhidkov.yaroslav.distributednotes.service.implementation;
+package zhidkov.yaroslav.distributednotes.implementation;
 
-import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import zhidkov.yaroslav.distributednotes.model.Note;
 import zhidkov.yaroslav.distributednotes.service.NoteService;
@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@AllArgsConstructor
-public class InMemoryImpl implements NoteService {
-
+public class NoteServiceImplementation implements NoteService {
 
     private final Map<String, Note> noteMap = new HashMap<>();
 
@@ -47,7 +45,7 @@ public class InMemoryImpl implements NoteService {
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteNoteById(String id) {
         noteMap.remove(id);
     }
 
