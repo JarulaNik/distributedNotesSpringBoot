@@ -1,22 +1,31 @@
 package zhidkov.yaroslav.distributednotes.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.UUID;
+import lombok.*;
 
-import javax.annotation.processing.Generated;
 
-@Getter
-@Setter
+@Entity
+@Table(name = "users")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class User {
 
-    @Generated(value = "UUID")
-    @UUID
-    @NotNull
-    private final String userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    private String id;
+
+    @Column(name = "Name")
+    private String Name;
+
+    @Email
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
 
 }

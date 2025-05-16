@@ -1,6 +1,7 @@
 package zhidkov.yaroslav.distributednotes.implementation;
 
 
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,17 +12,13 @@ import zhidkov.yaroslav.distributednotes.service.NoteService;
 import java.util.List;
 import java.util.Optional;
 
-
+@RequiredArgsConstructor
 @Service
 public class NoteServiceImplementation implements NoteService {
 
 
     private final NoteRepository noteRepository;
 
-
-    public NoteServiceImplementation(NoteRepository noteRepository) {
-        this.noteRepository = noteRepository;
-    }
 
     @Override
     @Transactional

@@ -1,6 +1,7 @@
 package zhidkov.yaroslav.distributednotes.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +15,20 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+@RequestMapping("/notes")
 public class NoteController {
-
 
     private final NoteService noteService;
 
-    public NoteController(NoteService noteService) {
-        this.noteService = noteService;
-    }
 
-
-    @GetMapping("/notes")
+    @GetMapping
     public ResponseEntity<List<Note>> showAllNotes() {
         List<Note> notes = noteService.showAllNotes();
         return ResponseEntity.ok(notes);
     }
 
-    @GetMapping("/notes/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<Note>> getNoteById(@PathVariable Long id) {
         @NotNull Optional<Note> note = noteService.getNoteById(id);
         if (note.isPresent()) {
@@ -41,7 +38,7 @@ public class NoteController {
         }
     }
 
-    @PostMapping("/notes")
+    @PostMapping
     public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
         Optional<Note> existingNote = noteService.getNoteById(note.getId());
         if (existingNote.isPresent()) {
@@ -51,8 +48,8 @@ public class NoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdNote);
     }
 
-    @PutMapping("/notes/{id}")
-    public ResponseEntity<Note> updateNote( @Valid @RequestBody Note note) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Note> updateNote(@Valid @RequestBody Note note) {
         Note updatedNote = noteService.updateNote(note.getId(), note.getTitle(), note.getContent());
         if (updatedNote != null) {
             return ResponseEntity.ok(updatedNote);
@@ -61,13 +58,14 @@ public class NoteController {
         }
     }
 
-    @DeleteMapping("/notes/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
         if (noteService.getNoteById(id).isPresent()) {
             noteService.deleteNoteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 }
+
