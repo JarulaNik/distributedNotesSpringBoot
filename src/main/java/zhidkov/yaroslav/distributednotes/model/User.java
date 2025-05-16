@@ -18,8 +18,8 @@ public class User {
     @Column(name = "id")
     private String id;
 
-    @Column(name = "Name")
-    private String Name;
+    @Column(name = "name")
+    private String name;
 
     @Email
     @Column(name = "email")
