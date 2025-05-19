@@ -1,11 +1,14 @@
 package zhidkov.yaroslav.distributednotes.controller;
 
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import zhidkov.yaroslav.distributednotes.model.Note;
 import zhidkov.yaroslav.distributednotes.service.NoteService;
 

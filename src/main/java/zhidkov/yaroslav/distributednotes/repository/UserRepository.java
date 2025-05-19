@@ -1,14 +1,20 @@
 package zhidkov.yaroslav.distributednotes.repository;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import zhidkov.yaroslav.distributednotes.model.User;
 
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-    @NotNull Optional<User> findById(@NotNull String id);
+    Optional<User> findByEmail(@Email String email);
 
-    void deleteById(@NotNull String id);
+    Boolean existsByEmail(@Email @NotEmpty(message = "Email is required") String email);
+
 }

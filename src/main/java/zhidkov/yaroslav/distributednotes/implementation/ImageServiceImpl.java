@@ -1,9 +1,11 @@
 package zhidkov.yaroslav.distributednotes.implementation;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import zhidkov.yaroslav.distributednotes.model.Image;
 import zhidkov.yaroslav.distributednotes.repository.ImageRepository;
 import zhidkov.yaroslav.distributednotes.service.ImageService;
@@ -13,7 +15,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
-public class ImageServiceImplementation implements ImageService {
+public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
 
