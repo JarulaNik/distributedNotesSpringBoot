@@ -23,7 +23,7 @@ public class NoteServiceImpl implements NoteService {
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Note> showAllNotes() {
         return noteRepository.findAll();
     }

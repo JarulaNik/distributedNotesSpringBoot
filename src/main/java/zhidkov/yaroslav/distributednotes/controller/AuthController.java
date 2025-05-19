@@ -1,7 +1,6 @@
 package zhidkov.yaroslav.distributednotes.controller;
 
 import jakarta.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -23,13 +22,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterRequest request) {
         authService.registerUser(request);
         return ResponseEntity.ok("Register successfully");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<TokenPair> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         TokenPair tokenPair = authService.login(loginRequest);
         return ResponseEntity.ok(tokenPair);
     }

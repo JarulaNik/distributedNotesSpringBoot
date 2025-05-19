@@ -14,10 +14,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+
 @Builder
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
@@ -60,13 +62,14 @@ public class User implements UserDetails {
         return email;
     }
 
-    @Column(name = "is_account_non_expired")
+    @Column(name = "is_account_non_locked")
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    @Column(name = "is_account_non_locked")
+
+    @Column(name = "is_account_non_expired")
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

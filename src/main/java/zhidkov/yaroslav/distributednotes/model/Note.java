@@ -8,9 +8,10 @@ import lombok.*;
 
 @Entity
 @Table(name = "note")
-@Data
 @Builder
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
 public class Note {
 

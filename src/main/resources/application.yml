@@ -9,11 +9,9 @@ spring:
     username: postgres
     password: postgres
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 logging:
   level:
@@ -25,3 +23,5 @@ app:
     secret: Mt5oJTwKY2Xxzp0mbsMI/gXAPqFS7JoWioRg1KYUeI4=
     expiration: 3600000
     refresh-expiration: 86400000
+springdoc:
+  show-actuator: true
