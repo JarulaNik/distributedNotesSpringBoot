@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: DistributedNotes
+  mvc:
+    servlet:
+      path: /api/v1
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+app:
+  jwt:
+    secret: Mt5oJTwKY2Xxzp0mbsMI/gXAPqFS7JoWioRg1KYUeI4=
+    expiration: 3600000
+    refresh-expiration: 86400000
+springdoc:
+  show-actuator: true

@@ -1,71 +1,74 @@
 package zhidkov.yaroslav.distributednotes.controller;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
+
+import lombok.RequiredArgsConstructor;
+
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+
 import zhidkov.yaroslav.distributednotes.model.Note;
 import zhidkov.yaroslav.distributednotes.service.NoteService;
 
-import java.util.List;
 
-@Data
+import java.util.List;
+import java.util.Optional;
+
+
 @RestController
-@AllArgsConstructor
-@Validated
-@RequestMapping("/api/v1")
+@RequiredArgsConstructor
+@RequestMapping("/notes")
 public class NoteController {
 
-    @NonNull
     private final NoteService noteService;
 
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/notes")
-    public List<Note> showAllNotes() {
-        return noteService.showAllNotes();
+    @GetMapping
+    public ResponseEntity<List<Note>> showAllNotes() {
+        List<Note> notes = noteService.showAllNotes();
+        return ResponseEntity.ok(notes);
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/notes/{id}")
-    public Note showNoteById(@PathVariable String id) {
-        Note note = noteService.showNoteById(id);
-        if (note == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found");
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Note>> getNoteById(@PathVariable Long id) {
+        @NotNull Optional<Note> note = noteService.getNoteById(id);
+        if (note.isPresent()) {
+            return ResponseEntity.ok(note);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return note;
     }
 
-
-    @PostMapping("/notes")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Note createNote(@Valid @RequestBody Note note) {
-        if (noteService.existsById(note.getId())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Note already exists");
+    @PostMapping
+    public ResponseEntity<Note> createNote(@Valid @RequestBody Note note) {
+        Optional<Note> existingNote = noteService.getNoteById(note.getId());
+        if (existingNote.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return noteService.createNote(note.getId(), note.getTitle(), note.getContent());
+        Note createdNote = noteService.createNote(note.getId(), note.getTitle(), note.getContent());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdNote);
     }
 
-    @PutMapping("/notes/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Note updateNote(@PathVariable String id, @Valid @RequestBody Note note) {
-        Note updatedNote = noteService.updateNote(id, note.getTitle(), note.getContent());
-        if (updatedNote == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found");
+    @PutMapping("/{id}")
+    public ResponseEntity<Note> updateNote(@Valid @RequestBody Note note) {
+        Note updatedNote = noteService.updateNote(note.getId(), note.getTitle(), note.getContent());
+        if (updatedNote != null) {
+            return ResponseEntity.ok(updatedNote);
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        return updatedNote;
     }
 
-    @DeleteMapping("/notes/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteNote(@PathVariable String id) {
-        if (noteService.showNoteById(id) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found");
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNote(@PathVariable Long id) {
+        if (noteService.getNoteById(id).isPresent()) {
+            noteService.deleteNoteById(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
-        noteService.deleteById(id);
     }
 }
+
